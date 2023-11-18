@@ -1,4 +1,6 @@
 # Project Meteorif
+
+Presentation available [here](https://docs.google.com/presentation/d/1dOCUSrn3HKGtE6lQaHa4q8Igz6fDY4AQtRPbG2OfbhQ/edit?usp=sharing)
 ## Table of Contents
 - [Project Meteorif](#project-meteorif)
   - [Table of Contents](#table-of-contents)
@@ -178,6 +180,7 @@ docker cp postgres:/var/lib/postgresql/data/fact_table.csv /path/to/your/folder
 
 # Contact
 - [Minh NGO](mailto:ngoc-minh.ngo@insa-lyon.fr)
+- [Yazid SBAI](mailto:yazid.sbai@insa-lyon.fr)
 
 # Acknowledgements
 - [INSA Lyon](https://www.insa-lyon.fr/en/)
