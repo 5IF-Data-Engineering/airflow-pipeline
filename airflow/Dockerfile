@@ -5,7 +5,8 @@ FROM apache/airflow:2.8.0b1-python3.11
 USER root
 
 # Install dependencies
-RUN apt-get update && \
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
     wget \
@@ -24,7 +25,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Install OpenJDK-17
-RUN apt-get update && \
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
     openjdk-17-jdk \
     && apt-get clean \
@@ -40,6 +42,6 @@ USER airflow
 
 # Install Python packages
 RUN pip install apache-airflow-providers-mongo==2.3.1 \
-    apache-airflow-providers-apache-spark==4.4.0 \ 
+    apache-airflow-providers-apache-spark==4.4.0 \
     geocoder==1.38.1 \
     apache-airflow-providers-snowflake==5.1.2

@@ -17,7 +17,7 @@ fact_table_df = spark.read.parquet("hdfs://namenode:8020/output/final_fact_table
 fact_table_df.show()
 
 sfOptions = {
-    "sfUrl": "https://ee65799.europe-west4.gcp.snowflakecomputing.com",
+    "sfUrl": "https://vv06073.europe-west4.gcp.snowflakecomputing.com",
     "sfUser": "YOUR_SNOWFLAKE_USERNAME",
     "sfPassword": "YOUR_SNOWFLAKE_PASSWORD",
     "sfRole": "ACCOUNTADMIN",
