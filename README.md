@@ -95,7 +95,8 @@ And the ETL pipelines are triggered by API calling, defined inside the `pipeline
 We extract the bus delay data and the weather data from the PostgreSQL database, then join them together. And also, we use partitioning by year for the joined table.
 We do some extensive cleanings and transformations using [Spark](https://spark.apache.org/). We use [Spark](https://spark.apache.org/) for the enrichment stage. SparkSubmit is used to submit the Spark job. 
 The Spark job is defined in the `spark/app` folder. The Spark job is triggered by `SparkSubmitOperator`. In this stage, we want to get the 3 dimensions: location, time and incident.
-We also want to add an identifier column for each dimension tables. These identifiers are foreign keys in the fact table. For location table, we use Google Geocoding API to get the coordinates of over 60000 locations in Toronto. Here is an example of a `SparkSubmitOperator`:
+We also want to add an identifier column for each dimension tables. These identifiers are foreign keys in the fact table. For location table, we use [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview)
+to get the coordinates of over 60000 locations in Toronto. Here is an example of a `SparkSubmitOperator`:
 
 ```python
 clean_incident = SparkSubmitOperator(
