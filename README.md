@@ -100,7 +100,7 @@ And the ETL pipelines are triggered by API calling, defined inside the `pipeline
 ![Partitioned tables](./assets/partition_table.png)
 
 DAG to run the pipeline:
-- `ingestion_weather_dag`
+- `staging_weather_dag`
 
 ## Enrichment
 
