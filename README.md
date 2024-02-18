@@ -68,6 +68,9 @@ The data pipeline is shown in the figure below.
 
 ![Bus ingestion](./assets/bus_ingestion.png)
 
+DAG to run the pipeline:
+- `ingestion_bus_delay_dag`
+
 ### Weather data ingestion
 Each year, we divide the bus data into 4 parts: January to March, April to June, July to September, and October to December. Each part is then processed in parallel. Inside each task, we consider that small ETL pipelines are executed. The small ETL pipelines are triggered by
 the API call, defined inside the `BashOperator` of the DAG. Each `BashOperator` will execute a Shell script to process the data. The Shell script is defined in the `./airflow/scripts` folder.
@@ -78,17 +81,26 @@ We divide the data by year. We then process the data in parallel. The weather da
 
 ![Weather ingestion](./assets/weather_ingestion.png)
 
+DAG to run the pipeline:
+- `ingestion_weather_dag`
+
 ## Staging
 ### Bus delay data staging
 We want to extract the data from the MongoDB database, transform it, and load it into the PostgreSQL database. We choose the PostgreSQL database for the staging stage because it is a relational database, which is suitable for storing the structured data. We use `PostgresOperator` and `BashOperator`. The data pipeline is shown in the figure below.
 
 ![Bus staging](./assets/bus_staging.png)
 
+DAG to run the pipeline:
+- `staging_bus_delay_dag`
+
 ### Weather data staging
 First, we have to create a table for storing staging data. We extract the data from the MongoDB database. The transformed data is loaded into the PostgreSQL database.
 And the ETL pipelines are triggered by API calling, defined inside the `pipeline_api` folder. We use partitioning by year for the staging database to speed up the data pipeline and to make it easier to join the data in the production environment. Here is the list of partitioned tables:
 
 ![Partitioned tables](./assets/partition_table.png)
+
+DAG to run the pipeline:
+- `ingestion_weather_dag`
 
 ## Enrichment
 
@@ -178,7 +190,7 @@ AIRFLOW_UID=${id -u}
 ```
 Initialize the Airflow database using the following command:
 ```bash
-docker-compose up airflow-init
+docker compose up airflow-init
 ```
 If 0 is returned, it means that the Airflow database is initialized successfully. Otherwise, you have to remove the `tmp` folder and run the command again.
 
@@ -189,7 +201,7 @@ chmod +x ./airflow/scripts/*
 
 After initializing the Airflow database, you can start the Airflow webserver and the scheduler using the following command:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 After starting the Airflow webserver and the scheduler, you can access the Airflow webserver at `http://localhost:8080/`. \
 You can access the Pipeline API at `http://localhost:8000/`.
@@ -211,6 +223,17 @@ docker exec -it airflow-webserver airflow connections add postgres_staging --con
   <img src="./assets/snowflake_conn_1.png" width="100"/>
   <img src="./assets/snowflake_conn_2.png" width="100"/>
 </p>
+
+After adding the connections, create the directories in the Hadoop using the following command:
+```bash
+docker exec -it namenode hdfs dfs -mkdir /output
+docker exec -it namenode hdfs dfs -chmod 777 /output
+```
+
+If you want to verify the data in the Hadoop, you can use the following command:
+```bash
+docker exec -it namenode hdfs dfs -ls /output
+```
 
 # Contact
 - [Minh NGO](mailto:ngoc-minh.ngo@insa-lyon.fr)
