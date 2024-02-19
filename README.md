@@ -235,6 +235,11 @@ If you want to verify the data in the Hadoop, you can use the following command:
 docker exec -it namenode hdfs dfs -ls /output
 ```
 
+If you want to see the Hadoop output files in the directory `hadoop/data`, you can use the following command:
+```bash
+docker exec -it namenode hdfs dfs -copyToLocal /output /hadoop-data
+```
+
 # Contact
 - [Minh NGO](mailto:ngoc-minh.ngo@insa-lyon.fr)
 - [Yazid SBAI](mailto:yazid.sbai@insa-lyon.fr)
